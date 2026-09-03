@@ -3,7 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; font-src 'self' https://cdn.aframe.io;">
+ <meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' https://cdn.aframe.io;
+  style-src 'self' 'unsafe-inline' https://cdn.aframe.io;
+  connect-src 'self' https://cdn.aframe.io;
+  img-src 'self' data: https://cdn.aframe.io;
+  font-src 'self' https://cdn.aframe.io;
+">
   <title>AR Großer Ötscher – CSP-Fix</title>
 
   <!-- Lokale Skripte (kein CORS/CORB!) -->
@@ -11,10 +18,16 @@
   <script src="js/aframe-ar.min.js"></script>
 
   <!-- Kamera-Parameter (lokal) -->
+  <!-- Kamera-Parameter NACH den Skripten definieren -->
   <script>
-    AFRAME.ARJS.CameraParameters = {
-      url: 'js/camera_para.dat'
-    };
+    // Warte, bis A-Frame und AR.js geladen sind
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof AFRAME !== 'undefined' && typeof AFRAME.ARJS !== 'undefined') {
+        AFRAME.ARJS.CameraParameters = {
+          url: 'js/camera_para.dat'
+        };
+      }
+    });
   </script>
 
   <style>

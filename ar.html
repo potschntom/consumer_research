@@ -3,14 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self' https://*.jsdelivr.net https://*.githack.com;
-    script-src 'self' 'unsafe-inline' https://*.jsdelivr.net https://*.githack.com;
-    style-src 'self' 'unsafe-inline' https://*.jsdelivr.net https://*.githack.com;
-    connect-src 'self' https://*.jsdelivr.net https://*.githack.com;
-    img-src 'self' data: https://*.jsdelivr.net https://*.githack.com;
-    font-src 'self' https://cdn.aframe.io;
-  ">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self'; img-src 'self' data:; font-src 'self' https://cdn.aframe.io;">
   <title>AR Großer Ötscher – CSP-Fix</title>
 
   <!-- Lokale Skripte (kein CORS/CORB!) -->

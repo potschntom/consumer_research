@@ -3,14 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://*.jsdelivr.net https://*.githack.com; script-src 'self' 'unsafe-inline' https://*.jsdelivr.net https://*.githack.com; connect-src 'self' https://*.jsdelivr.net https://*.githack.com; img-src 'self' data: https://*.jsdelivr.net https://*.githack.com;">
-  <title>AR Großer Ötscher – CORB-Fix</title>
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self' https://*.jsdelivr.net https://*.githack.com;
+    script-src 'self' 'unsafe-inline' https://*.jsdelivr.net https://*.githack.com;
+    style-src 'self' 'unsafe-inline' https://*.jsdelivr.net https://*.githack.com;
+    connect-src 'self' https://*.jsdelivr.net https://*.githack.com;
+    img-src 'self' data: https://*.jsdelivr.net https://*.githack.com;
+    font-src 'self' https://cdn.aframe.io;
+  ">
+  <title>AR Großer Ötscher – CSP-Fix</title>
 
-  <!-- A-Frame + AR.js mit CORS-kompatiblen URLs -->
+  <!-- A-Frame + AR.js -->
   <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1.4.0/dist/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.4.0/aframe/build/aframe-ar.min.js"></script>
 
-  <!-- Kamera-Parameter (wichtig für GitHub Pages!) -->
+  <!-- Kamera-Parameter -->
   <script>
     AFRAME.ARJS.CameraParameters = {
       url: 'https://raw.githack.com/AR-js-org/AR.js/master/data/camera_para.dat'
@@ -39,27 +46,24 @@
 </head>
 <body>
   <div id="loading">Lade AR... (Kamera wird gleich angefragt!)</div>
-  <div id="error">Kamera wird blockiert? Nutze <strong>Chrome oder Edge</strong> und tippe auf das Schloss-Symbol → Berechtigungen → Kamera erlauben.</div>
+  <div id="error">Kamera blockiert? Nutze <strong>Chrome/Edge</strong> und erlaube die Kamera!</div>
   <div id="info">
     <h1>🏔 AR Großer Ötscher</h1>
     <p>Halte die Kamera auf den <a href="https://jeromeetienne.github.io/AR.js/data/images/HIRO.jpg" style="color: #FFD700;">Hiro-Marker</a>!</p>
-    <p><small>Tipp: Nutze Chrome/Edge auf Android oder iOS!</small></p>
   </div>
 
   <a-scene embedded arjs="sourceType: webcam; detectionMode: mono; trackingMethod: best;">
     <a-entity camera look-controls="pointerLockEnabled: false"></a-entity>
     
-    <!-- Marker: Hiro -->
     <a-marker preset="hiro">
-      <!-- Hintergrund -->
       <a-sky color="#E0F7FA"></a-sky>
       
-      <!-- Berg-Grundkörper -->
+      <!-- Berg -->
       <a-entity geometry="primitive: box; width: 4; height: 1.5; depth: 2" 
                 material="color: #5A4D41; opacity: 0.9; transparent: true" 
                 position="0 0.75 0"></a-entity>
       
-      <!-- Hauptgipfel -->
+      <!-- Gipfel -->
       <a-entity geometry="primitive: cone; radius-bottom: 0.3; height: 0.8" 
                 material="color: #FFD700; opacity: 0.9" 
                 position="0 1.5 0.2">
@@ -75,7 +79,7 @@
                   position="0 0.4 0" scale="0.4 0.4 0.4"></a-entity>
       </a-entity>
       
-      <!-- Ötschergletscher -->
+      <!-- Gletscher -->
       <a-entity geometry="primitive: plane; width: 1.2; height: 0.5" 
                 material="color: #4ECDC4; opacity: 0.7; transparent: true; side: double" 
                 position="-0.3 0.5 -0.8" rotation="-20 0 0">
@@ -83,7 +87,7 @@
                   position="0 0.3 0" scale="0.4 0.4 0.4"></a-entity>
       </a-entity>
       
-      <!-- Kompass (Norden) -->
+      <!-- Kompass -->
       <a-entity geometry="primitive: cone; radius-bottom: 0.1; height: 0.3" 
                 material="color: #FF0000" 
                 position="0 0 -1">
@@ -94,14 +98,13 @@
   </a-scene>
 
   <script>
-    // Loading ausblenden
     document.querySelector('a-scene').addEventListener('loaded', function() {
       setTimeout(() => {
         document.getElementById('loading').style.display = 'none';
       }, 1500);
     });
 
-    // Kamera-Berechtigung für iOS
+    // iOS-Kamera-Berechtigung
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
       document.addEventListener('click', function() {
         if (typeof AFRAME !== 'undefined' && AFRAME.ARJS) {
@@ -109,12 +112,6 @@
         }
       });
     }
-
-    // Fehlerbehandlung
-    window.addEventListener('error', function(e) {
-      console.error("AR-Fehler:", e.message);
-      document.getElementById('error').style.display = 'block';
-    });
   </script>
 </body>
 </html>
